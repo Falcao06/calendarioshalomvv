@@ -52,7 +52,7 @@ function loadCalendar(year, month) {
     const daysInMonth = new Date(year, month, 0).getDate();
     const firstDay = new Date(year, month - 1, 1).getDay(); // 0=Domingo, 1=Segunda, ..., 6=Sábado
 
-    // Criar cabeçalho com os dias da semana (domingo por último)
+    // Criar cabeçalho com os dias da semana (domingo à direita)
     const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
     daysOfWeek.forEach(day => {
         const dayElement = document.createElement('div');
