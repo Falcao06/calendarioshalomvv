@@ -50,10 +50,10 @@ function loadCalendar(year, month) {
     calendar.innerHTML = '';
 
     const daysInMonth = new Date(year, month, 0).getDate();
-    const firstDay = new Date(year, month - 1, 1).getDay();
+    const firstDay = new Date(year, month - 1, 1).getDay(); // 0=Domingo, 1=Segunda, ..., 6=Sábado
 
-    // Criar cabeçalho com os dias da semana
-    const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+    // Criar cabeçalho com os dias da semana (domingo por último)
+    const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
     daysOfWeek.forEach(day => {
         const dayElement = document.createElement('div');
         dayElement.className = 'day header';
@@ -62,7 +62,8 @@ function loadCalendar(year, month) {
     });
 
     // Adicionar células em branco para o início do mês
-    for (let i = 0; i < firstDay; i++) {
+    const adjustedFirstDay = (firstDay + 6) % 7; // Ajustar para que domingo fique por último
+    for (let i = 0; i < adjustedFirstDay; i++) {
         const emptyCell = document.createElement('div');
         calendar.appendChild(emptyCell);
     }
@@ -84,6 +85,14 @@ function loadCalendar(year, month) {
         }
 
         calendar.appendChild(dayElement);
+    }
+
+    // Adicionar células em branco para o fim do mês (se necessário)
+    const lastDay = new Date(year, month - 1, daysInMonth).getDay(); // Dia da semana do último dia do mês
+    const adjustedLastDay = (lastDay + 1) % 7; // Ajustar para que domingo fique por último
+    for (let i = adjustedLastDay; i < 6; i++) {
+        const emptyCell = document.createElement('div');
+        calendar.appendChild(emptyCell);
     }
 }
 
