@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário Interativo</title>
+    <link rel="stylesheet" href="calendario.css"> <!-- Incluindo o arquivo CSS -->
+    <script defer src="calendario.js"></script> <!-- Incluindo o arquivo JavaScript -->
+</head>
+<body>
+    <div class="calendar-container">
+        <h1>Calendário do SP de Vila Verde</h1>
+
+        <!-- Adicionando o logo diretamente no HTML -->
+        <img src="shalom.png" alt="Logo" style="display: block; margin: 0 auto; width: 100px; height: auto;">
+
+        <div class="controls">
+            <label for="year">Ano:</label>
+            <select id="year" name="year" onchange="updateCalendar()">
+                <script>
+                    const currentYear = new Date().getFullYear();
+                    for (let i = currentYear - 1; i <= currentYear + 2; i++) {
+                        document.write(`<option value="${i}">${i}</option>`);
+                    }
+                </script>
+            </select>
+
+            <label for="month">Mês:</label>
+            <select id="month" name="month" onchange="updateCalendar()">
+                <option value="1">Janeiro</option>
+                <option value="2">Fevereiro</option>
+                <option value="3">Março</option>
+                <option value="4">Abril</option>
+                <option value="5">Maio</option>
+                <option value="6">Junho</option>
+                <option value="7">Julho</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setembro</option>
+                <option value="10">Outubro</option>
+                <option value="11">Novembro</option>
+                <option value="12">Dezembro</option>
+            </select>
+        </div>
+
+        <div id="calendar"></div>
+
+        <!-- Formulário para adicionar e remover eventos -->
+        <div class="event-controls">
+            <div class="add-event">
+                <h3>Adicionar Evento</h3>
+                <input type="number" id="event-year" placeholder="Ano" min="2023">
+                <input type="number" id="event-month" placeholder="Mês" min="1" max="12">
+                <input type="number" id="event-day" placeholder="Dia" min="1" max="31">
+                <input type="text" id="event-title" placeholder="Título do Evento">
+                <button onclick="addEvent()">Adicionar Evento</button>
+            </div>
+
+            <div class="remove-event">
+                <h3>Remover Evento</h3>
+                <input type="number" id="remove-event-year" placeholder="Ano" min="2023">
+                <input type="number" id="remove-event-month" placeholder="Mês" min="1" max="12">
+                <input type="number" id="remove-event-day" placeholder="Dia" min="1" max="31">
+                <button onclick="removeEvent()">Remover Evento</button>
+            </div>
+        </div>
+
+        <!-- Botão "Hoje" -->
+        <div class="today">
+            <button onclick="goToToday()">Hoje</button>
+        </div>
+    </div>
+</body>
+</html>

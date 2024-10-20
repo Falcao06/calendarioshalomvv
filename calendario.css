@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #003366;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.controls label {
+    margin-right: 10px;
+}
+
+.controls select,
+.controls input {
+    padding: 5px;
+    margin: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 100px;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    padding: 10px;
+    grid-auto-rows: minmax(60px, auto);
+}
+
+.day {
+    background-color: #f1f1f1;
+    padding: 8px;
+    border-radius: 4px;
+    text-align: center;
+    transition: background-color 0.3s;
+    min-height: 60px;
+}
+
+.day.event {
+    background-color: #ff3333;
+    color: #fff;
+}
+
+.day.header {
+    font-weight: bold;
+    background-color: #003366;
+    color: #fff;
+}
+
+.day:hover {
+    background-color: #ffcc00;
+}
+
+.event-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.add-event,
+.remove-event {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48%;
+}
+
+.add-event input,
+.add-event button,
+.remove-event input,
+.remove-event button {
+    padding: 8px;
+    margin: 5px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.today {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.today button {
+    background-color: red;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 15px 30px;
+    font-size: 18px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.today button:hover {
+    background-color: darkred;
+    transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+    .controls,
+    .add-event,
+    .remove-event {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .controls select,
+    .controls input,
+    .add-event input,
+    .remove-event input {
+        max-width: 100%;
+    }
+
+    #calendar {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .event-controls {
+        flex-direction: column;
+    }
+
+    .add-event,
+    .remove-event {
+        width: 100%;
+    }
+}
