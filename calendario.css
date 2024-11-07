@@ -4,6 +4,11 @@ body {
     color: #333;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+}
+
+.shalom{
+    width: 100px;
 }
 
 .calendar-container {
@@ -18,27 +23,78 @@ body {
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
     color: #003366;
+}
+
+/* Navbar estilizada */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: #003366;
+    padding: 10px 20px;
+    color: white;
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul li {
+    margin-right: 20px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar ul li a:hover {
+    color: #ffcc00;
+}
+
+.nav-toggle {
+    display: none;
+}
+
+/* Menu responsivo */
+@media (max-width: 768px) {
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+    }
+
+    .navbar ul li {
+        margin-bottom: 10px;
+    }
+
+    .nav-toggle {
+        display: block;
+        cursor: pointer;
+    }
 }
 
 .controls {
     display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
 .controls label {
     margin-right: 10px;
 }
 
-.controls select,
-.controls input {
+.controls select {
     padding: 5px;
     margin: 5px;
     font-size: 16px;
     width: 100%;
-    max-width: 100px;
+    max-width: 200px;
 }
 
 #calendar {
@@ -54,12 +110,13 @@ h1 {
     padding: 8px;
     border-radius: 4px;
     text-align: center;
+    cursor: pointer;
     transition: background-color 0.3s;
-    min-height: 60px;
+    position: relative;
 }
 
 .day.event {
-    background-color: #ff3333;
+    background-color: #ff3333; /* Cor vermelha para eventos */
     color: #fff;
 }
 
@@ -73,78 +130,197 @@ h1 {
     background-color: #ffcc00;
 }
 
-.event-controls {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+/* Pop-up para exibir detalhes do evento */
+.event-popup {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 100;
 }
 
-.add-event,
-.remove-event {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 48%;
-}
-
-.add-event input,
-.add-event button,
-.remove-event input,
-.remove-event button {
-    padding: 8px;
-    margin: 5px;
-    font-size: 16px;
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 200;
+    left: 0;
+    top: 0;
     width: 100%;
-    max-width: 200px;
-}
-
-.today {
-    display: flex;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
-    margin: 20px 0;
+    align-items: center;
 }
 
-.today button {
-    background-color: red;
-    color: #fff;
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.modal-content input, .modal-content input[type="time"] {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+    background-color: #45a049;
+}
+
+.close {
+    color: red;
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: darkred;
+}
+
+/* Estilo do botão "Adicionar Evento" */
+.add-event-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.add-event-button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo do pop-up de detalhes do evento */
+.event-details-modal {
+    display: none;
+    position: fixed;
+    z-index: 300;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.event-details-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+}
+
+.botao-hoje {
     padding: 15px 30px;
+    background-color: #ff6f61; /* Cor principal */
+    color: white;
+    border: none;
+    border-radius: 50px; /* Bordas arredondadas */
     font-size: 18px;
-    transition: background-color 0.3s, transform 0.3s;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+    position: relative;
+    overflow: hidden;
 }
 
-.today button:hover {
-    background-color: darkred;
-    transform: scale(1.05);
+.botao-hoje::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.2); /* Brilho */
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
 }
 
-@media (max-width: 600px) {
-    .controls,
-    .add-event,
-    .remove-event {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .controls select,
-    .controls input,
-    .add-event input,
-    .remove-event input {
-        max-width: 100%;
-    }
-
-    #calendar {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .event-controls {
-        flex-direction: column;
-    }
-
-    .add-event,
-    .remove-event {
-        width: 100%;
-    }
+.botao-hoje:hover::before {
+    transform: translate(-50%, -50%) scale(1); /* Efeito de brilho ao passar o mouse */
 }
+
+.botao-hoje:hover {
+    background-color: #ff8566; /* Cor ao passar o mouse */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte */
+}
+
+.botao-hoje:active {
+    background-color: #ff4f41; /* Cor ao clicar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }/* Sombra mais leve ao clicar */
+    
+
+    .botao-adicionar {
+    padding: 15px 30px;
+    background-color: #28a745; /* Cor verde */
+    color: white;
+    border: none;
+    border-radius: 50px; /* Bordas arredondadas */
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
+    position: relative;
+    overflow: hidden;
+}
+
+.botao-adicionar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.2); /* Brilho */
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+}
+
+.botao-adicionar:hover::before {
+    transform: translate(-50%, -50%) scale(1); /* Efeito de brilho ao passar o mouse */
+}
+
+.botao-adicionar:hover {
+    background-color: #32cd77; /* Cor ao passar o mouse */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte */
+}
+
+.botao-adicionar:active {
+    background-color: #218838; /* Cor ao clicar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);} /* Sombra mais leve ao clicar */

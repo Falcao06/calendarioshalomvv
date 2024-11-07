@@ -3,30 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Calendário de eventos da comunidade Shalom VV.">
+    <meta name="keywords" content="Calendário, Shalom, VV, Eventos, Comunidade">
+    <meta name="author" content="Nome do Autor">
     <title>Calendário Interativo</title>
-    <link rel="stylesheet" href="calendario.css"> <!-- Incluindo o arquivo CSS -->
-    <script defer src="calendario.js"></script> <!-- Incluindo o arquivo JavaScript -->
+    
+    <!-- Incluindo o arquivo CSS -->
+    <link rel="stylesheet" href="calendario.css">
+
+    <!-- Scripts para o calendário -->
+    <script src="calendario.js" defer></script>
 </head>
-<body>
+body>
+    <!-- Menu de navegação -->
+    <div class="navbar">
+        <span class="nav-toggle">☰ Menu</span>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#events">Eventos</a></li>
+            <li><a href="#contact">Contato</a></li>
+        </ul>
+    </div>
+
+    <!-- Container principal do calendário -->
     <div class="calendar-container">
+       
+        <center><img src="shalom.png" class="shalom"></center>
         <h1>Calendário do SP de Vila Verde</h1>
+        
 
-        <!-- Adicionando o logo diretamente no HTML -->
-        <img src="shalom.png" alt="Logo" style="display: block; margin: 0 auto; width: 100px; height: auto;">
-
+        <!-- Controles para selecionar ano e mês -->
         <div class="controls">
+            <button onclick="goToToday()" class="botao-hoje">Hoje</button>
             <label for="year">Ano:</label>
             <select id="year" name="year" onchange="updateCalendar()">
                 <script>
                     const currentYear = new Date().getFullYear();
+                    
                     for (let i = currentYear - 1; i <= currentYear + 2; i++) {
-                        document.write(`<option value="${i}">${i}</option>`);
+                        document.write(`<option value="${i}" class="botao-navegacao">${i}</option>`);
                     }
                 </script>
             </select>
 
             <label for="month">Mês:</label>
-            <select id="month" name="month" onchange="updateCalendar()">
+            <select id="month" name="month" onchange="updateCalendar()" class="botao-navegacao">
                 <option value="1">Janeiro</option>
                 <option value="2">Fevereiro</option>
                 <option value="3">Março</option>
@@ -42,31 +63,24 @@
             </select>
         </div>
 
+        <!-- Calendário dinâmico -->
         <div id="calendar"></div>
 
-        <!-- Formulário para adicionar e remover eventos -->
-        <div class="event-controls">
-            <div class="add-event">
-                <h3>Adicionar Evento</h3>
-                <input type="number" id="event-year" placeholder="Ano" min="2023">
-                <input type="number" id="event-month" placeholder="Mês" min="1" max="12">
-                <input type="number" id="event-day" placeholder="Dia" min="1" max="31">
-                <input type="text" id="event-title" placeholder="Título do Evento">
-                <button onclick="addEvent()">Adicionar Evento</button>
-            </div>
+        <!-- Botão para abrir o modal -->
+        <center><button class="botao-adicionar" onclick="showAddEventModal()">Adicionar Evento</button></center>
+    </div>
 
-            <div class="remove-event">
-                <h3>Remover Evento</h3>
-                <input type="number" id="remove-event-year" placeholder="Ano" min="2023">
-                <input type="number" id="remove-event-month" placeholder="Mês" min="1" max="12">
-                <input type="number" id="remove-event-day" placeholder="Dia" min="1" max="31">
-                <button onclick="removeEvent()">Remover Evento</button>
-            </div>
-        </div>
-
-        <!-- Botão "Hoje" -->
-        <div class="today">
-            <button onclick="goToToday()">Hoje</button>
+    <!-- Modal de adicionar evento -->
+    <div id="addEventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>Adicionar Evento</h3>
+            <input type="number" id="event-year" placeholder="Ano" min="2023">
+            <input type="number" id="event-month" placeholder="Mês" min="1" max="12">
+            <input type="number" id="event-day" placeholder="Dia" min="1" max="31">
+            <input type="text" id="event-title" placeholder="Título do Evento">
+            <input type="time" id="event-time" placeholder="Hora do Evento"> <!-- Tipo 'time' -->
+            <button onclick="addEvent()">Adicionar</button>
         </div>
     </div>
 </body>
