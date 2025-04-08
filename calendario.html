@@ -8,8 +8,46 @@
     <meta name="author" content="Nome do Autor">
     <title>Calendário Interativo</title>
     
-    <!-- Incluindo o  arquivo CSS -->
+    <!-- Incluindo o arquivo CSS -->
     <link rel="stylesheet" href="calendario.css">
+
+    <!-- Estilos adicionais para o modal -->
+    <style>
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 60px;
+            width: 400px;
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 10px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .modal-content button {
+            margin-top: 15px;
+        }
+
+        #confirm-remove {
+            display: none; /* Só mostra em eventos personalizados */
+        }
+    </style>
 
     <!-- Scripts para o calendário -->
     <script src="calendario.js" defer></script>
@@ -27,10 +65,8 @@
 
     <!-- Container principal do calendário -->
     <div class="calendar-container">
-       
         <center><img src="shalom.png" class="shalom"></center>
         <h1>Calendário do SP de Vila Verde</h1>
-        
 
         <!-- Controles para selecionar ano e mês -->
         <div class="controls">
@@ -39,7 +75,6 @@
             <select id="year" name="year" onchange="updateCalendar()">
                 <script>
                     const currentYear = new Date().getFullYear();
-                    
                     for (let i = currentYear - 1; i <= currentYear + 2; i++) {
                         document.write(`<option value="${i}" class="botao-navegacao">${i}</option>`);
                     }
@@ -66,12 +101,12 @@
         <!-- Calendário dinâmico -->
         <div id="calendar"></div>
 
-        <!-- Botão para abrir o modal -->
+        <!-- Botão para abrir o modal de adicionar evento -->
         <center><button class="botao-adicionar" onclick="showAddEventModal()">Adicionar Evento</button></center>
     </div>
 
     <!-- Modal de adicionar evento -->
-    <div id="addEventModal" class="modal">
+    <div id="addEventModal" class="modal" style="display: none;">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h3>Adicionar Evento</h3>
@@ -79,8 +114,17 @@
             <input type="number" id="event-month" placeholder="Mês" min="1" max="12">
             <input type="number" id="event-day" placeholder="Dia" min="1" max="31">
             <input type="text" id="event-title" placeholder="Título do Evento">
-            <input type="time" id="event-time" placeholder="Hora do Evento"> <!-- Tipo 'time' -->
+            <input type="time" id="event-time" placeholder="Hora do Evento">
             <button onclick="addEvent()">Adicionar</button>
+        </div>
+    </div>
+
+    <!-- Modal de informação de evento (com remoção opcional) -->
+    <div id="removeEventModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeRemoveModal()">&times;</span>
+            <p id="remove-event-label"></p>
+            <button id="confirm-remove" onclick="confirmRemove()">Remover</button>
         </div>
     </div>
 </body>

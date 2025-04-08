@@ -131,7 +131,7 @@ h1 {
     background-color: #ffcc00;
 }
 
-/* Pop-up para exibir detalhes do evento */
+/* Pop-up para exibir detalhes do evento (não usado atualmente) */
 .event-popup {
     position: absolute;
     background-color: white;
@@ -142,7 +142,7 @@ h1 {
     z-index: 100;
 }
 
-/* Modal centralizado */
+/* Modal centralizado (reutilizado para adicionar/remover/eventos) */
 .modal {
     position: fixed;
     z-index: 200;
@@ -151,13 +151,11 @@ h1 {
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
-
     display: none;
     justify-content: center;
     align-items: center;
 }
 
-/* Classe para ativar o modal */
 .modal.show {
     display: flex;
 }
@@ -165,26 +163,17 @@ h1 {
 /* Caixa do conteúdo do modal */
 .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 40px 30px;
     border-radius: 12px;
     max-width: 400px;
     width: 90%;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.3s ease-in-out;
+    position: relative;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
+/* Inputs e botões dentro do modal */
 .modal-content input,
 .modal-content input[type="time"] {
     width: 100%;
@@ -208,9 +197,12 @@ h1 {
     background-color: #45a049;
 }
 
+/* Botão de fechar modal */
 .close {
     color: red;
-    float: right;
+    position: absolute;
+    top: 10px;
+    right: 15px;
     font-size: 24px;
     cursor: pointer;
 }
@@ -219,7 +211,30 @@ h1 {
     color: darkred;
 }
 
-/* Estilo do botão "Adicionar Evento" */
+/* Botão de confirmação de remoção */
+#confirm-remove {
+    display: none; /* Só aparece em eventos personalizados */
+    margin-top: 15px;
+    background-color: #dc3545;
+}
+
+#confirm-remove:hover {
+    background-color: #c82333;
+}
+
+/* Animação suave ao abrir modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Botão "Adicionar Evento" */
 .add-event-button,
 .botao-adicionar {
     display: block;

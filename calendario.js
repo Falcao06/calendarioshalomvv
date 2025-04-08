@@ -46,7 +46,7 @@ const fixedEvents = {
 
 let events = loadEvents();
 
-// Função para adicionar reuniões semanais em domingos livres
+// Adiciona reuniões semanais em domingos livres
 function addWeeklyMeetings() {
     const startDate = new Date('2024-10-27');
     const endDate = new Date('2025-09-30');
@@ -71,14 +71,14 @@ function addWeeklyMeetings() {
     saveEvents(events);
 }
 
-// Função para atualizar o calendário
+// Atualiza o calendário
 function updateCalendar() {
     const year = document.getElementById('year').value;
     const month = document.getElementById('month').value;
     loadCalendar(year, month);
 }
 
-// Função para carregar o calendário
+// Carrega o calendário
 function loadCalendar(year, month) {
     const calendar = document.getElementById('calendar');
     calendar.innerHTML = '';
@@ -86,7 +86,6 @@ function loadCalendar(year, month) {
     const daysInMonth = new Date(year, month, 0).getDate();
     const firstDay = new Date(year, month - 1, 1).getDay();
 
-    // Cabeçalho com os dias da semana (domingo à direita)
     const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
     daysOfWeek.forEach(day => {
         const dayElement = document.createElement('div');
@@ -95,32 +94,35 @@ function loadCalendar(year, month) {
         calendar.appendChild(dayElement);
     });
 
-    // Células em branco no início do mês
     const adjustedFirstDay = (firstDay + 6) % 7;
     for (let i = 0; i < adjustedFirstDay; i++) {
         const emptyCell = document.createElement('div');
         calendar.appendChild(emptyCell);
     }
 
-    // Dias do mês
     for (let day = 1; day <= daysInMonth; day++) {
         const eventDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const dayElement = document.createElement('div');
         dayElement.className = 'day';
         dayElement.innerText = day;
 
-        if (events[eventDate]) {
+        const isFixed = !!fixedEvents[eventDate];
+        const isUserEvent = !!events[eventDate];
+        const title = isFixed ? fixedEvents[eventDate] : events[eventDate];
+
+        if (isFixed || isUserEvent) {
             dayElement.classList.add('event');
-            dayElement.innerText += `: ${events[eventDate]}`;
-        } else if (fixedEvents[eventDate]) {
-            dayElement.classList.add('event');
-            dayElement.innerText += `: ${fixedEvents[eventDate]}`;
+            dayElement.innerText += `: ${title}`;
+            dayElement.dataset.date = eventDate;
+
+            dayElement.addEventListener('click', () => {
+                showEventInfoModal(eventDate, title, !isFixed); // só permitir remover se não for fixo
+            });
         }
 
         calendar.appendChild(dayElement);
     }
 
-    // Células em branco no fim do mês
     const lastDay = new Date(year, month - 1, daysInMonth).getDay();
     const adjustedLastDay = (lastDay + 1) % 7;
     for (let i = adjustedLastDay; i < 6; i++) {
@@ -129,7 +131,7 @@ function loadCalendar(year, month) {
     }
 }
 
-// Adiciona um evento ao calendário
+// Adiciona um novo evento
 function addEvent() {
     const year = document.getElementById('event-year').value;
     const month = document.getElementById('event-month').value;
@@ -152,32 +154,41 @@ function addEvent() {
     alert('Evento adicionado com sucesso!');
 }
 
-// Remove um evento do calendário
-function removeEvent() {
-    const year = document.getElementById('remove-event-year').value;
-    const month = document.getElementById('remove-event-month').value;
-    const day = document.getElementById('remove-event-day').value;
+// Mostra modal com info do evento (e botão de remoção, se aplicável)
+function showEventInfoModal(date, title, allowDelete) {
+    const modal = document.getElementById('removeEventModal');
+    const label = document.getElementById('remove-event-label');
+    const confirmBtn = document.getElementById('confirm-remove');
 
-    if (!year || !month || !day) {
-        alert('Preencha todos os campos!');
-        return;
+    label.innerText = `Evento em ${date}:\n"${title}"`;
+
+    if (allowDelete) {
+        confirmBtn.dataset.date = date;
+        confirmBtn.style.display = 'inline-block';
+    } else {
+        confirmBtn.style.display = 'none';
     }
 
-    const eventDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    modal.style.display = 'block';
+}
 
-    if (events[eventDate] && !fixedEvents[eventDate]) {
-        delete events[eventDate];
+// Confirma a remoção do evento do utilizador
+function confirmRemove() {
+    const date = document.getElementById('confirm-remove').dataset.date;
+    if (events[date]) {
+        delete events[date];
         saveEvents(events);
         updateCalendar();
+        closeRemoveModal();
         alert('Evento removido com sucesso!');
-    } else if (fixedEvents[eventDate]) {
-        alert('Este evento não pode ser removido!');
-    } else {
-        alert('Não existe nenhum evento nesta data!');
     }
 }
 
-// Ir para a data de hoje
+function closeRemoveModal() {
+    document.getElementById('removeEventModal').style.display = 'none';
+}
+
+// Ir para hoje
 function goToToday() {
     const today = new Date();
     document.getElementById('year').value = today.getFullYear();
@@ -185,21 +196,21 @@ function goToToday() {
     loadCalendar(today.getFullYear(), today.getMonth() + 1);
 }
 
-// Mostrar o modal de adicionar evento
+// Mostrar modal de adicionar evento
 function showAddEventModal() {
     document.getElementById('addEventModal').style.display = 'block';
 }
 
-// Fechar o modal
+// Fechar modal de adicionar
 function closeModal() {
     document.getElementById('addEventModal').style.display = 'none';
 }
 
-// Inicializar calendário ao carregar a página
+// Inicialização
 document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     document.getElementById('year').value = today.getFullYear();
     document.getElementById('month').value = today.getMonth() + 1;
-    addWeeklyMeetings(); // garantir domingos livres
+    addWeeklyMeetings();
     updateCalendar();
 });
