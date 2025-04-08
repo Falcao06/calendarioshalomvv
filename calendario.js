@@ -30,7 +30,7 @@ const fixedEvents = {
     '2025-04-05': 'CN (Convivio Nacional)',
     '2025-04-06': 'CN (Convivio Nacional)',
     '2025-04-13': 'Leituras Missa',
-    '2025-04-18': 'Cantar APCB',
+    '2025-04-17': 'Cantar APCB',
     '2025-05-10': '8º ano (Cantar missa) / Bodas de Ouro',
     '2025-05-31': 'Banco Alimentar',
     '2025-06-01': 'Banco Alimentar',
