@@ -7,12 +7,12 @@ body {
     line-height: 1.6;
 }
 
-.shalom{
+.shalom {
     width: 100px;
 }
 
 .calendar-container {
-    max-width:  900px;
+    max-width: 900px;
     margin: 50px auto;
     background-color: #fff;
     padding: 20px;
@@ -83,6 +83,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     margin: 20px 0;
+    flex-wrap: wrap;
 }
 
 .controls label {
@@ -116,7 +117,7 @@ h1 {
 }
 
 .day.event {
-    background-color: #ff3333; /* Cor vermelha para eventos */
+    background-color: #ff3333;
     color: #fff;
 }
 
@@ -141,31 +142,51 @@ h1 {
     z-index: 100;
 }
 
-/* Modal */
+/* Modal centralizado */
 .modal {
-    display: none;
     position: fixed;
     z-index: 200;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
+
+    display: none;
     justify-content: center;
     align-items: center;
 }
 
+/* Classe para ativar o modal */
+.modal.show {
+    display: flex;
+}
+
+/* Caixa do conteúdo do modal */
 .modal-content {
     background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 12px;
     max-width: 400px;
     width: 90%;
     text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.modal-content input, .modal-content input[type="time"] {
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content input,
+.modal-content input[type="time"] {
     width: 100%;
     margin-bottom: 10px;
     padding: 10px;
@@ -199,24 +220,97 @@ h1 {
 }
 
 /* Estilo do botão "Adicionar Evento" */
-.add-event-button {
+.add-event-button,
+.botao-adicionar {
     display: block;
     margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #4CAF50;
+    padding: 15px 30px;
+    background-color: #28a745;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
-.add-event-button:hover {
-    background-color: #45a049;
+.botao-adicionar::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
 }
 
-/* Estilo do pop-up de detalhes do evento */
+.botao-adicionar:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.botao-adicionar:hover {
+    background-color: #32cd77;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.botao-adicionar:active {
+    background-color: #218838;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão "Hoje" */
+.botao-hoje {
+    padding: 15px 30px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.botao-hoje::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.5s ease;
+    transform: translate(-50%, -50%) scale(0);
+    border-radius: 50%;
+}
+
+.botao-hoje:hover::before {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.botao-hoje:hover {
+    background-color: #ff8566;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.botao-hoje:active {
+    background-color: #ff4f41;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Modal para detalhes (reserva futura) */
 .event-details-modal {
     display: none;
     position: fixed;
@@ -239,88 +333,3 @@ h1 {
     width: 90%;
     text-align: center;
 }
-
-.botao-hoje {
-    padding: 15px 30px;
-    background-color: #ff6f61; /* Cor principal */
-    color: white;
-    border: none;
-    border-radius: 50px; /* Bordas arredondadas */
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
-    position: relative;
-    overflow: hidden;
-}
-
-.botao-hoje::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background-color: rgba(255, 255, 255, 0.2); /* Brilho */
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%;
-}
-
-.botao-hoje:hover::before {
-    transform: translate(-50%, -50%) scale(1); /* Efeito de brilho ao passar o mouse */
-}
-
-.botao-hoje:hover {
-    background-color: #ff8566; /* Cor ao passar o mouse */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte */
-}
-
-.botao-hoje:active {
-    background-color: #ff4f41; /* Cor ao clicar */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); }/* Sombra mais leve ao clicar */
-    
-
-    .botao-adicionar {
-    padding: 15px 30px;
-    background-color: #28a745; /* Cor verde */
-    color: white;
-    border: none;
-    border-radius: 50px; /* Bordas arredondadas */
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-    text-transform: uppercase;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Sombra */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
-    position: relative;
-    overflow: hidden;
-}
-
-.botao-adicionar::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background-color: rgba(255, 255, 255, 0.2); /* Brilho */
-    transition: all 0.5s ease;
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%;
-}
-
-.botao-adicionar:hover::before {
-    transform: translate(-50%, -50%) scale(1); /* Efeito de brilho ao passar o mouse */
-}
-
-.botao-adicionar:hover {
-    background-color: #32cd77; /* Cor ao passar o mouse */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte */
-}
-
-.botao-adicionar:active {
-    background-color: #218838; /* Cor ao clicar */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);} /* Sombra mais leve ao clicar */

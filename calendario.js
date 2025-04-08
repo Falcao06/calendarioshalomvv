@@ -34,6 +34,13 @@ const fixedEvents = {
     '2025-05-10': '8º ano (Cantar missa) / Bodas de Ouro',
     '2025-05-31': 'Banco Alimentar',
     '2025-06-01': 'Banco Alimentar',
+    '2025-08-10': 'GE',
+    '2025-08-11': 'GE',
+    '2025-08-12': 'GE',
+    '2025-08-13': 'GE',
+    '2025-08-14': 'GE',
+    '2025-08-15': 'GE',
+    '2025-08-16': 'GE',
 };
 
 let events = loadEvents();
@@ -127,6 +134,7 @@ function addEvent() {
     const month = document.getElementById('event-month').value;
     const day = document.getElementById('event-day').value;
     const title = document.getElementById('event-title').value;
+    const time = document.getElementById('event-time').value;
 
     if (!year || !month || !day || !title) {
         alert('Preencha todos os campos!');
@@ -134,9 +142,12 @@ function addEvent() {
     }
 
     const eventDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    events[eventDate] = title;
+    const fullTitle = time ? `${title} (${time})` : title;
+
+    events[eventDate] = fullTitle;
     saveEvents(events);
     updateCalendar();
+    closeModal();
     alert('Evento adicionado com sucesso!');
 }
 
@@ -173,11 +184,21 @@ function goToToday() {
     loadCalendar(today.getFullYear(), today.getMonth() + 1);
 }
 
+// Mostrar o modal de adicionar evento
+function showAddEventModal() {
+    document.getElementById('addEventModal').style.display = 'block';
+}
+
+// Fechar o modal
+function closeModal() {
+    document.getElementById('addEventModal').style.display = 'none';
+}
+
 // Inicializar calendário ao carregar a página
 document.addEventListener('DOMContentLoaded', () => {
     const today = new Date();
     document.getElementById('year').value = today.getFullYear();
     document.getElementById('month').value = today.getMonth() + 1;
-    addWeeklyMeetings(); // <-- aqui garantimos os domingos livres
+    addWeeklyMeetings(); // garantir domingos livres
     updateCalendar();
 });
