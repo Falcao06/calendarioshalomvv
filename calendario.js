@@ -162,7 +162,10 @@ function showEventInfoModal(date, title, allowDelete) {
 
     label.innerText = `Evento em ${date}:\n"${title}"`;
 
-    if (allowDelete) {
+    // Não permitir a remoção se for "Reunião Semanal"
+    if (title === 'Reunião Semanal') {
+        confirmBtn.style.display = 'none';
+    } else if (allowDelete) {
         confirmBtn.dataset.date = date;
         confirmBtn.style.display = 'inline-block';
     } else {
